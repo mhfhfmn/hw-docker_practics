@@ -30,5 +30,3 @@ echo "compose run"
 docker compose up -d
 
 echo "drploy complit"
-
-https://docs.google.com/document/d/1_UR9UajPP7WJwBhRtGo-HZ7BRZo4NhvL9DXm9r9EX1w/edit?usp=sharing
