@@ -99,17 +99,63 @@ See 'snap info docker' for additional versions.
 
 Ранее я удалил .env файл и deploy.sh и добавил из в .gitignore, так как в .env файлах содержаться секреты, которые недопустимо выставлять в открытый доступ, и вынес создания   .env в deploy.sh, но в нем так же содержатся секреты, поэтому было принято решение вынести скрипт deploy.sh за пределы самого форка на другой сервис. Сейчас с наличием .env фалйа в репозитории необходимости в этом нету, блок создания закоментирован.
 
+По сути весь деплой сводится к 2 командам:
+Установка docker compose:
+`curl -fsSL https://get.docker.com | sh`
+Скачивание и запуск скрипта из репозитория:
+`wget -qO deploy.sh https://raw.githubusercontent.com/mhfhfmn/hw-docker_practics/blob/main/deploy.sh && chmod +x deploy.sh && sudo ./deploy.sh`
+
 [deploy скрипт](https://github.com/mhfhfmn/hw-docker_practics/blob/main/deploy.sh)
 ![Скроиншот sql-запроса](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_4.jpg)
 
 ---
-## Задача 5 (*)
-1. Напишите и задеплойте на вашу облачную ВМ bash скрипт, который произведет резервное копирование БД mysql в директорию "/opt/backup" с помощью запуска в сети "backend" контейнера из образа ```schnitzler/mysqldump``` при помощи ```docker run ...``` команды. Подсказка: "документация образа."
-2. Протестируйте ручной запуск
-3. Настройте выполнение скрипта раз в 1 минуту через cron, crontab или systemctl timer. Придумайте способ не светить логин/пароль в git!!
-4. Предоставьте скрипт, cron-task и скриншот с несколькими резервными копиями в "/opt/backup"
 
 ## Задача 6
 Скачайте docker образ ```hashicorp/terraform:latest``` и скопируйте бинарный файл ```/bin/terraform``` на свою локальную машину, используя dive и docker save.
-Предоставьте скриншоты  действий .
+Предоставьте скриншоты действий .
 
+## Решение
+
+С помощью утилиты dive мы можем проанализировать готовый образ, для этого нам сначала необходимо скачать его с репозитория образов, установим утилиту, скачаем образ и выполник команду:
+
+```
+wget https://github.com/wagoodman/dive/releases/download/v0.12.0/dive_0.12.0_linux_amd64.deb
+sudo apt install ./dive_0.12.0_linux_amd64.deb
+docker pull hashicorp/terraform:latest
+dive hashicorp/terraform:latest
+```
+![скриншот dive](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_dive.jpg)
+
+На скриншоте утилиты мы можем видеть 4 слоя образа, на самом последнем слое добавляется искомый файл /bin/terraform, эта информация нам пригодится для поиска исполняемого файла.
+
+Далее необходимо выгрузить образ как архив, затем распоковать его и произвести поиск утилитой zgrep выполним команду:
+```
+docker save hashicorp/terraform:latest -o tf.tar
+mkdir tf
+tar -xf tf.tar -C tf
+cd tf
+zgrep -l "bin/terraform" blobs/sha256/*
+```
+![скриншот docker save 1](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_1.jpg)
+на скриншоте видно 2 совпадения:
+
+```
+blobs/sha256/2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6
+blobs/sha256/ee2e0f259e55cf6b05037721ead2793b146517cb68820e0a65982c0b37ee12c2
+```
+
+Посмотрим их размеры, больший из них содержит необходимый нам файл:
+```
+ls -lh blobs/sha256/2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6
+ls -lh blobs/sha256/ee2e0f259e55cf6b05037721ead2793b146517cb68820e0a65982c0b37ee12c2
+```
+![скриншот docker save 2](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_2.jpg)
+
+Нас интересует blob c хэшем 2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6
+
+Извлечем из него необходимый файл командой:
+`tar -xf blobs/sha256/2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6 bin/terraform`
+После выполнения команды в текущем каталоге появится папка bin с искомым файлом.
+
+![скриншот docker save 3](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_3.jpg)
+Далее необходимо перенести его в необходимое место, например в каталог /bin на локальной машине
