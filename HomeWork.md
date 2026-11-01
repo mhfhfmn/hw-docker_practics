@@ -82,6 +82,8 @@ See 'snap info docker' for additional versions.
 ## Решение
 Так как оба сервиса ожидают разные разные переменные(например для запуска mysql необходима переменная `MYSQL_ROOT_PASSWORD`, в то время как в main.py ожидается переменная `DB_PASSWORD`), в сервисе web мы переопределим переменные указав в значении переменную их .env, а сервису db мы скормим .env файл как есть. Укажем ip адреса в виртуальной сети backend и сборку образа для контейнера из файла Dockerfile.python из задания 1.
 
+[compose.yaml](https://github.com/mhfhfmn/hw-docker_practics/blob/main/compose.yaml)
+
 ![Скроиншот sql-запроса](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_3.jpg)
 
 Погасим проект командой `docker compose down`
