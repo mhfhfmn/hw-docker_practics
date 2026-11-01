@@ -157,9 +157,10 @@ ls -lh blobs/sha256/ee2e0f259e55cf6b05037721ead2793b146517cb68820e0a65982c0b37ee
 ![скриншот docker save 2](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_2.jpg)
 
 Нас интересует blob c хэшем 2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6
-
 Извлечем из него необходимый файл командой:
+
 `tar -xf blobs/sha256/2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6 bin/terraform`
+
 После выполнения команды в текущем каталоге появится папка bin с искомым файлом.
 
 ![скриншот docker save 3](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_3.jpg)
