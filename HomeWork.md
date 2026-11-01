@@ -50,7 +50,9 @@ See 'snap info docker' for additional versions.
 
 ## Решение
 [.gitignore файл](https://github.com/mhfhfmn/hw-docker_practics/blob/main/.gitignore)
+
 [.dockerignore файл](https://github.com/mhfhfmn/hw-docker_practics/blob/main/.dockerignore)
+
 [Dockerfile.python](https://github.com/mhfhfmn/hw-docker_practics/blob/main/Dockerfile.python)
 
 Для управления названием таблицы была добавлена инструкция считывания названия из файла .env(переменная `DB_TABLE`) по аналогии с остальными переменными в `db_table` в main.py:
