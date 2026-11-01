@@ -108,6 +108,7 @@ See 'snap info docker' for additional versions.
 `wget -qO deploy.sh https://raw.githubusercontent.com/mhfhfmn/hw-docker_practics/blob/main/deploy.sh && chmod +x deploy.sh && sudo ./deploy.sh`
 
 [deploy скрипт](https://github.com/mhfhfmn/hw-docker_practics/blob/main/deploy.sh)
+
 ![Скроиншот sql-запроса](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_4.jpg)
 
 ---
@@ -139,6 +140,7 @@ cd tf
 zgrep -l "bin/terraform" blobs/sha256/*
 ```
 ![скриншот docker save 1](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_1.jpg)
+
 на скриншоте видно 2 совпадения:
 
 ```
@@ -151,6 +153,7 @@ blobs/sha256/ee2e0f259e55cf6b05037721ead2793b146517cb68820e0a65982c0b37ee12c2
 ls -lh blobs/sha256/2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6
 ls -lh blobs/sha256/ee2e0f259e55cf6b05037721ead2793b146517cb68820e0a65982c0b37ee12c2
 ```
+
 ![скриншот docker save 2](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_2.jpg)
 
 Нас интересует blob c хэшем 2d664eecf5e7d017570e58c8cec8a8a65adff55b713f5f370bfddd22a0698cb6
@@ -160,4 +163,5 @@ ls -lh blobs/sha256/ee2e0f259e55cf6b05037721ead2793b146517cb68820e0a65982c0b37ee
 После выполнения команды в текущем каталоге появится папка bin с искомым файлом.
 
 ![скриншот docker save 3](https://github.com/mhfhfmn/hw-docker_practics/blob/main/img/task_6_docker_save_3.jpg)
+
 Далее необходимо перенести его в необходимое место, например в каталог /bin на локальной машине
